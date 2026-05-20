@@ -1,0 +1,12 @@
+id = "quick-log"
+name = "Quick Log"
+description = "Quickly insert console.log statements for selected variables in JS/TS files"
+version = "0.0.1"
+schema_version = 1
+authors = ["liulu.working"]
+repository = "https://github.com/leoendless/zed-quick-log"
+
+[language_servers.quick-log]
+name = "Quick Log"
+languages = ["JavaScript", "TypeScript", "TSX", "JSX"]
+language_ids = { "JavaScript" = "javascript", "TypeScript" = "typescript", "TSX" = "typescriptreact", "JSX" = "javascriptreact" }
