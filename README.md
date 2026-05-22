@@ -50,6 +50,23 @@ The workaround is to ship the feature as a tiny custom Language Server that retu
 
 The LSP is built into `server/dist/server.js` and embedded into the Rust extension at compile time. On startup, the extension writes that bundle into Zed's extension working directory and launches it with Zed's bundled Node.js runtime.
 
+## Install from GitHub
+
+Clone the extension repository:
+
+```bash
+git clone https://github.com/leoendless/zed-quick-log.git
+```
+
+Then install it in Zed:
+
+1. Open the command palette.
+2. Run `zed: install dev extension`.
+3. Select the cloned `zed-quick-log/` folder.
+4. Reload Zed if prompted.
+
+The built language server bundle is committed in `server/dist/server.js`, so users do not need to run `npm install` or `npm run build` just to use the extension.
+
 ## Build the LSP locally (only if you're hacking on `server/src/`)
 
 ```bash
