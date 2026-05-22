@@ -12,6 +12,7 @@
   "scripts": {
     "build": "esbuild src/server.ts --bundle --platform=node --target=node18 --outfile=dist/server.js --banner:js=\"#!/usr/bin/env node\"",
     "watch": "npm run build -- --watch",
+    "test": "npm run build && node --test test/*.test.cjs",
     "typecheck": "tsc --noEmit",
     "prepublishOnly": "npm run build"
   },

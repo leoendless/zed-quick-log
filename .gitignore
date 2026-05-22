@@ -1,5 +1,7 @@
 target/
 node_modules/
 server/dist/
+!server/dist/
+!server/dist/server.js
 *.wasm
 .DS_Store

@@ -16,6 +16,7 @@ import { URI } from 'vscode-uri';
 
 const connection = createConnection(ProposedFeatures.all);
 const documents = new TextDocuments(TextDocument);
+const LOG_LABEL_PREFIX = '🔍 ';
 
 connection.onInitialize(() => ({
   capabilities: {
@@ -74,7 +75,7 @@ function buildInsertLogAction(doc: TextDocument, range: Range): CodeAction | nul
   const context = findEnclosingContext(doc, anchorLine);
 
   const locator = `[${filename}:${anchorLine + 2}${context ? ` ${context}` : ''}]`;
-  const label = `${locator} ${variable} =`;
+  const label = `${LOG_LABEL_PREFIX}${locator} ${variable} =`;
   const logLine = `${indent}console.log("${escapeForDoubleQuoted(label)}", ${variable});`;
 
   const insertPos = Position.create(anchorLine, lineText.length);

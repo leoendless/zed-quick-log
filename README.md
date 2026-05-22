@@ -32,7 +32,7 @@ The workaround is to ship the feature as a tiny custom Language Server that retu
 
 - **Insert console.log for selection** — uses the selected text as the variable name.
 - **Word-at-cursor fallback** — if no selection, uses the identifier under the cursor.
-- **Context-aware label** — generates `console.log("[<file>:<line> <enclosingFn>] <var> =", var)`.
+- **Context-aware label** — generates `console.log("🔍 [<file>:<line> <enclosingFn>] <var> =", var)`.
   - The enclosing function is detected by a regex sweep (handles `function foo()`, `const foo = () =>`, methods, and classes).
 - **Indent preservation** — the inserted line matches the indent of the original line.
 - **Document-scoped actions** — when invoked anywhere on a file that already has `console.log`s:
@@ -48,7 +48,7 @@ The workaround is to ship the feature as a tiny custom Language Server that retu
 
 ## Architecture
 
-The LSP is shipped as a separate npm package [`quick-log-lsp`](https://www.npmjs.com/package/quick-log-lsp). Zed downloads it on first launch via the extension's `npm_install_package` call — nothing is bundled into the WASM (required by Zed's marketplace [publishing rules](https://zed.dev/docs/extensions/developing-extensions#publishing-extensions)).
+The LSP is built into `server/dist/server.js` and embedded into the Rust extension at compile time. On startup, the extension writes that bundle into Zed's extension working directory and launches it with Zed's bundled Node.js runtime.
 
 ## Build the LSP locally (only if you're hacking on `server/src/`)
 
@@ -56,13 +56,7 @@ The LSP is shipped as a separate npm package [`quick-log-lsp`](https://www.npmjs
 cd server
 npm install
 npm run build       # produces dist/server.js
-```
-
-To test changes end-to-end you must publish a pre-release to npm so Zed can fetch it:
-
-```bash
-npm version prerelease --preid=dev
-npm publish --tag dev
+npm test
 ```
 
 > The Rust → WASM compile is performed automatically by Zed the first time you install the dev extension; you don't need to run `cargo build` yourself.
@@ -118,7 +112,7 @@ Select `subtotal` on line 2, invoke Code Actions, pick the insert action:
 ```ts
 export function calculateTotal(items, discount) {
   const subtotal = items.reduce((sum, item) => sum + item.price, 0);
-  console.log("[calc.ts:3 calculateTotal] subtotal =", subtotal);
+  console.log("🔍 [calc.ts:3 calculateTotal] subtotal =", subtotal);
   return subtotal - discount;
 }
 ```
